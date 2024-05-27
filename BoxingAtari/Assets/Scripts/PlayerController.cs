@@ -26,6 +26,10 @@ public class PlayerController : MonoBehaviour
     [Header("Animations")]
     private Animator animPlayer;
 
+    [Header("Points")]
+    private int _playerPoints = 0;
+    public int PlayerPoints { get => _playerPoints; set => _playerPoints = value; }
+
     // Start is called before the first frame update
     void Start()
     {

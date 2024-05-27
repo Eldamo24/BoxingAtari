@@ -8,7 +8,7 @@ public class PunchController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Punch"))
         {
-            Debug.Log("HeadShot");
+            collision.gameObject.GetComponentInParent<PlayerController>().PlayerPoints++;
         }
     }
 }
