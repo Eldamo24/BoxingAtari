@@ -6,27 +6,50 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Movement")]
     private Rigidbody2D rbPlayer;
     private PlayerInput playerInput;
+    private Transform playerPosition;
     private Vector2 input;
-
     private float forceMovement = 3f;
+
+    [Header("CheckFlip")]
+    private Transform enemyPosition;
+    private SpriteRenderer playerRenderer;
+
+    [Header("Punch")]
+    private bool isPunching = false;
+    private float offset = 0.8f;
+
+    [Header("Animations")]
+    private Animator animPlayer;
+
     // Start is called before the first frame update
     void Start()
     {
         rbPlayer = GetComponent<Rigidbody2D>();
         playerInput = GetComponent<PlayerInput>();
+        playerPosition = GetComponent<Transform>();
+        enemyPosition = GameObject.Find("Enemy").GetComponent<Transform>();
+        playerRenderer = GetComponentInChildren<SpriteRenderer>();
+        animPlayer = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Movement();
+        CheckIfCanPunch();
+        if (!isPunching)
+        {
+            Movement();
+            CheckFlip();
+        }
     }
 
     private void FixedUpdate()
     {
-        rbPlayer.MovePosition(transform.position + new Vector3(input.x, input.y, 0f) * Time.deltaTime * forceMovement);
+        if(!isPunching)
+            rbPlayer.MovePosition(playerPosition.position + new Vector3(input.x, input.y, 0f) * Time.deltaTime * forceMovement);
     }
 
     private void Movement()
@@ -38,7 +61,38 @@ public class PlayerController : MonoBehaviour
     {
         if (callback.performed)
         {
-            Debug.Log("Punch");
+            if(playerPosition.position.y - offset >= enemyPosition.position.y) 
+            {
+                animPlayer.SetTrigger("IsPunchingRight");
+            }
+            else
+            {
+                animPlayer.SetTrigger("IsPunchingLeft");
+            }
+        }
+    }
+
+    private void CheckFlip()
+    {
+        if(playerPosition.position.x > enemyPosition.position.x)
+        {
+            playerRenderer.flipX = true;
+        }
+        else
+        {
+            playerRenderer.flipX = false;
+        }
+    }
+
+    private void CheckIfCanPunch()
+    {
+        if (animPlayer.GetCurrentAnimatorStateInfo(0).IsName("PunchRight") || animPlayer.GetCurrentAnimatorStateInfo(0).IsName("PunchLeft"))
+        {
+            isPunching = true;
+        }
+        else
+        {
+            isPunching = false;
         }
     }
 }
