@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
     [Header("Punch")]
     private bool isPunching = false;
     private float offset = 0.8f;
+    private float coolDown = 3f;
+    private bool canPunch = true;
 
     [Header("Animations")]
     private Animator animPlayer;
@@ -61,13 +63,17 @@ public class PlayerController : MonoBehaviour
     {
         if (callback.performed)
         {
-            if(playerPosition.position.y - offset >= enemyPosition.position.y) 
+            if (canPunch)
             {
-                animPlayer.SetTrigger("IsPunchingRight");
-            }
-            else
-            {
-                animPlayer.SetTrigger("IsPunchingLeft");
+                canPunch = false;
+                if (playerPosition.position.y - offset >= enemyPosition.position.y)
+                {
+                    animPlayer.SetTrigger("IsPunchingRight");
+                }
+                else
+                {
+                    animPlayer.SetTrigger("IsPunchingLeft");
+                }
             }
         }
     }
@@ -89,10 +95,18 @@ public class PlayerController : MonoBehaviour
         if (animPlayer.GetCurrentAnimatorStateInfo(0).IsName("PunchRight") || animPlayer.GetCurrentAnimatorStateInfo(0).IsName("PunchLeft"))
         {
             isPunching = true;
+            StartCoroutine("PunchCoolDown");
         }
         else
         {
             isPunching = false;
         }
+    }
+
+    IEnumerator PunchCoolDown()
+    {
+        yield return new WaitForSeconds(coolDown);
+        canPunch = true;
+        StopCoroutine("PunchCoolDown");
     }
 }
