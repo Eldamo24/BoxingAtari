@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour
 
     private void CheckFlip()
     {
-        if(playerPosition.position.x > enemyPosition.position.x)
+        if(playerPosition.position.x >= enemyPosition.position.x)
         {
             playerRenderer.flipX = true;
         }
