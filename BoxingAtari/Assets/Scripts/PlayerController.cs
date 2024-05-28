@@ -22,6 +22,10 @@ public class PlayerController : MonoBehaviour
     private float offset = 0.8f;
     private float coolDown = 3f;
     private bool canPunch = true;
+    private int _hit = 0;
+    public int Hit { get => _hit; set => _hit = value; }
+
+
 
     [Header("Animations")]
     private Animator animPlayer;
@@ -111,6 +115,7 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(coolDown);
         canPunch = true;
+        _hit = 0;
         StopCoroutine("PunchCoolDown");
     }
 }

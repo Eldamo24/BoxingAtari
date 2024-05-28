@@ -18,6 +18,9 @@ public class EnemyController : MonoBehaviour
     private float distance;
     private float minDistance = 1.4f;
     private int _enemyPoints = 0;
+    private int _hitEnemy = 0;
+    public int HitEnemy { get => _hitEnemy; set => _hitEnemy = value; }
+
     public int EnemyPoints { get => _enemyPoints; set => _enemyPoints = value; }
 
     // Start is called before the first frame update
@@ -49,13 +52,13 @@ public class EnemyController : MonoBehaviour
         if (canPunch)
         {
             canPunch = false;
-            if (transform.position.y - offset  >= target.position.y)
+            if (transform.position.y + offset  >= target.position.y)
             {
-                animEnemy.SetTrigger("IsPunchingRight");
+                animEnemy.SetTrigger("IsPunchingLeft");
             }
             else
             {
-                animEnemy.SetTrigger("IsPunchingLeft");
+                animEnemy.SetTrigger("IsPunchingRight");
             }
         }
     }
@@ -101,6 +104,7 @@ public class EnemyController : MonoBehaviour
     {
         yield return new WaitForSeconds(coolDown);
         canPunch = true;
+        _hitEnemy = 0;
         StopCoroutine("PunchCoolDown");
     }
 }

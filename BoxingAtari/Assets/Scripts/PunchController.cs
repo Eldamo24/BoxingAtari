@@ -8,11 +8,13 @@ public class PunchController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Punch") && collision.gameObject.name == "SpritePlayer")
         {
-            collision.gameObject.GetComponentInParent<PlayerController>().PlayerPoints++;
-        }
-        else if(collision.gameObject.CompareTag("Punch") && collision.gameObject.name == "SpriteEnemy")
-        {
-            collision.gameObject.GetComponentInParent<EnemyController>().EnemyPoints++;
+            collision.gameObject.GetComponentInParent<PlayerController>().Hit++;
+            if(collision.gameObject.GetComponentInParent<PlayerController>().Hit == 1)
+            {
+                collision.gameObject.GetComponentInParent<PlayerController>().PlayerPoints++;
+                UIController.instance.UpdateScorePlayer();
+            }
+
         }
     }
 }
