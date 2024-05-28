@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerPunchController : MonoBehaviour
 {
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Punch") && collision.gameObject.name == "SpriteEnemy")
