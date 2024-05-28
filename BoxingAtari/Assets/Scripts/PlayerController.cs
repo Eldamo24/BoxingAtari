@@ -116,4 +116,9 @@ public class PlayerController : MonoBehaviour
         _hit = 0;
         StopCoroutine("PunchCoolDown");
     }
+
+    public void Punched()
+    {
+        animPlayer.SetTrigger("Punched");
+    }
 }

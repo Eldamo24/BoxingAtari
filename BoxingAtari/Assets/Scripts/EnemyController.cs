@@ -103,4 +103,9 @@ public class EnemyController : MonoBehaviour
         _hitEnemy = 0;
         StopCoroutine("PunchCoolDown");
     }
+
+    public void Punched()
+    {
+        animEnemy.SetTrigger("Punched");
+    }
 }

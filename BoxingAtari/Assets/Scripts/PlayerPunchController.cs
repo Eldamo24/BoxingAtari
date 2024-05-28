@@ -9,6 +9,7 @@ public class PlayerPunchController : MonoBehaviour
             collision.gameObject.GetComponentInParent<EnemyController>().HitEnemy++;
             if(collision.gameObject.GetComponentInParent<EnemyController>().HitEnemy == 1)
             {
+                gameObject.GetComponentInParent<PlayerController>().Punched();
                 collision.gameObject.GetComponentInParent<EnemyController>().EnemyPoints++;
                 UIController.instance.UpdateScoreEnemy();
             }
